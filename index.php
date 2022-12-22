@@ -13,6 +13,10 @@
     <main class="container">
         <h1>Lista knjiga</h1>
 
+        <a class="btn btn-dark" href="/iteh-domaci-1-nikolija/kreiraj_knjigu.php">
+            Dodaj novu knjigu
+        </a>
+
         <table class="table">
             <thead>
             <tr>

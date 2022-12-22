@@ -7,6 +7,31 @@ class BookAuthor
     private int $id;
     private string $authorName;
 
+    public function getAll()
+    {
+        $baza = new Baza();
+        $konekcija = $baza->getConnection();
+        $query = $konekcija->prepare("select * from book_authors");
+
+        $authors = [];
+
+        if($query->execute()) {
+            $result = $query->get_result();
+
+            while($row = $result->fetch_assoc()) {
+                $author = new BookAuthor();
+                $author->setId($row['id']);
+                $author->setAuthorName($row['author_name']);
+                $authors[] = $author;
+            }
+        }
+
+        $query->close();
+        $baza->disconnect();
+
+        return $authors;
+    }
+
     public static function findById(int $id)
     {
         $baza = new Baza();
