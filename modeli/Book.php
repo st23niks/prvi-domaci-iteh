@@ -1,11 +1,19 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/iteh-domaci-1-nikolija/Baza.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/iteh-domaci-1-nikolija/modeli/BookAuthor.php';
+
 class Book
 {
     private int $id;
     private string $bookName;
     private int $releasedYear;
     private int $bookAuthorId;
+
+    public function getAuthor()
+    {
+        return BookAuthor::findById($this->getBookAuthorId());
+    }
 
     public function getAll()
     {
@@ -28,10 +36,10 @@ class Book
             }
         }
 
-        return $books;
-
-        $konekcija->close();
+        $query->close();
         $baza->disconnect();
+
+        return $books;
     }
 
     public function save()
@@ -47,7 +55,7 @@ class Book
 
         $query->execute();
 
-        $konekcija->close();
+        $query->close();
         $baza->disconnect();
     }
 
@@ -62,7 +70,7 @@ class Book
 
         $query->execute();
 
-        $konekcija->close();
+        $query->close();
         $baza->disconnect();
     }
 

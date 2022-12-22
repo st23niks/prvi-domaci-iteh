@@ -1,6 +1,6 @@
 <?php
 
-$baza = new Baza();
+include $_SERVER['DOCUMENT_ROOT'] . '/iteh-domaci-1-nikolija/modeli/Book.php';
 
 $bookName = $_POST['book_name'];
 $releasedYear = $_POST['released_year'];
