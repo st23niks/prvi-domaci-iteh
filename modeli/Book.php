@@ -5,69 +5,104 @@ class Book
     private int $id;
     private string $bookName;
     private int $releasedYear;
-    private BookAuthor $bookAuthor;
+    private int $bookAuthorId;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
+    public function getAll()
+    {
+        $baza = new Baza();
+        $konekcija = $baza->getConnection();
+        $query = $konekcija->prepare("select * from books");
+
+        $books = [];
+
+        if($query->execute()) {
+            $result = $query->get_result();
+
+            while($row = $result->fetch_assoc()) {
+                $book = new Book();
+                $book->setId($row['id']);
+                $book->setBookName($row['book_name']);
+                $book->setReleasedYear($row['released_year']);
+                $book->setBookAuthorId($row['author_id']);
+                $books[] = $book;
+            }
+        }
+
+        return $books;
+
+        $konekcija->close();
+        $baza->disconnect();
+    }
+
+    public function save()
+    {
+        $baza = new Baza();
+        $konekcija = $baza->getConnection();
+        $query = $konekcija->prepare("insert into books (book_name, released_year, author_id) values (?, ?, ?)");
+
+        $name = $this->getBookName();
+        $year = $this->getReleasedYear();
+        $authorId = $this->getBookAuthorId();
+        $query->bind_param("sii", $name, $year, $authorId);
+
+        $query->execute();
+
+        $konekcija->close();
+        $baza->disconnect();
+    }
+
+    public function delete()
+    {
+        $baza = new Baza();
+        $konekcija = $baza->getConnection();
+        $query = $konekcija->prepare("delete from books where id = ?");
+
+        $id = $this->getId();
+        $query->bind_param("i", $id);
+
+        $query->execute();
+
+        $konekcija->close();
+        $baza->disconnect();
+    }
+
+    public function getBookAuthorId()
+    {
+        return $this->bookAuthorId;
+    }
+
+    public function setBookAuthorId(int $bookAuthorId)
+    {
+        $this->bookAuthorId = $bookAuthorId;
+    }
+
+    public function setId(int $id)
     {
         $this->id = $id;
     }
 
-    /**
-     * @param string $bookName
-     */
-    public function setBookName(string $bookName): void
+    public function setBookName(string $bookName)
     {
         $this->bookName = $bookName;
     }
 
-    /**
-     * @param int $releasedYear
-     */
-    public function setReleasedYear(int $releasedYear): void
+    public function setReleasedYear(int $releasedYear)
     {
         $this->releasedYear = $releasedYear;
     }
 
-    /**
-     * @param BookAuthor $bookAuthor
-     */
-    public function setBookAuthor(BookAuthor $bookAuthor): void
-    {
-        $this->bookAuthor = $bookAuthor;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getBookName(): string
+    public function getBookName()
     {
         return $this->bookName;
     }
 
-    /**
-     * @return int
-     */
-    public function getReleasedYear(): int
+    public function getReleasedYear()
     {
         return $this->releasedYear;
-    }
-
-    /**
-     * @return BookAuthor
-     */
-    public function getBookAuthor(): BookAuthor
-    {
-        return $this->bookAuthor;
     }
 }
