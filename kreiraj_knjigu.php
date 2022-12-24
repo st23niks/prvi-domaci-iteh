@@ -33,7 +33,7 @@
                 <select class="form-control" id="author_id" name="author_id"></select>
             </div>
 
-            <button id="kreirajKnjiguBtn" class="btn btn-success mb-3">
+            <button type="button" onClick="kreirajKnjigu()" class="btn btn-success mb-3">
                 Kreiraj
             </button>
         </form>

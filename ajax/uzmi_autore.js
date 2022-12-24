@@ -22,6 +22,5 @@ window.addEventListener('DOMContentLoaded', function() {
         "/iteh-domaci-1-nikolija/operacije/uzmi_autore.php",
         true
     );
-    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.send();
 });
