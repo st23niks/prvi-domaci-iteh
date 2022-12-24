@@ -33,10 +33,18 @@
                     <td><?= $knjiga->getBookName() ?></td>
                     <td><?= $knjiga->getReleasedYear() ?></td>
                     <td><?= $knjiga->getAuthor()->getAuthorName() ?></td>
+                    <td>
+                        <button onClick="obrisiKnjigu(this, <?= $knjiga->getId() ?>)"
+                                class="btn btn-danger">
+                            Obrisi
+                        </button>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
     </main>
+
+    <script src="ajax/brisi_knjigu.js"></script>
 </body>
 </html>
